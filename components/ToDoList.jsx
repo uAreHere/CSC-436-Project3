@@ -1,87 +1,69 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getTasks, addTask } from "csc-start/utils/data";
+import { useState } from "react";
+import { addTask } from "csc-start/utils/data";
 
-const ToDoList = ({ list_id }) => {
-  const [tasks, setTasks] = useState([]);
+const ToDoList = () => {
+  const [taskName, setTaskName] = useState("");
+  const [priority, setPriority] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+  const [listID, setListID] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getTasks(list_id);
-      if (data) {
-        setTasks(data);
-      }
-    };
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
 
-    fetchData();
-  }, [list_id]);
-
-  const handleAddTask = async (taskName, priority, isComplete) => {
-    const { success, data, error } = await addTask(
-      taskName,
-      priority,
-      isComplete,
-      list_id
-    );
-    if (success) {
-      setTasks((prevTasks) => [...prevTasks, data]);
+    const addedTask = await addTask(taskName, priority, isComplete, listID);
+    if (addedTask.success == true) {
+      setTaskName("");
+      setPriority("");
+      setIsComplete(false);
+      setListID("");
     } else {
-      console.error(error);
     }
   };
 
   return (
     <div>
-      <h2>ToDo List</h2>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>{task.taskName}</li>
-        ))}
-      </ul>
-      <h3>Add new Task</h3>
-      <form
-        onSubmit={(e) => {
-          const taskName = e.target.taskName.value;
-          const priority = e.target.priority.value;
-          const isComplete = e.target.isComplete.checked;
-          handleAddTask(taskName, priority, isComplete);
-          e.target.reset();
-        }}
-      >
-        <input type="text" name="taskName" placeholder="Task Name" />
-        <input type="number" name="priority" placeholder="Priority" />
+      <h2 className="h2 inline-block">ToDo List:</h2>
+
+      <h3 className="">Add new Task</h3>
+      <form className="m-4" onSubmit={handleFormSubmit}>
+        <label className="inline-block text-center w-[200px]">Task:</label>
+        <input
+          className="border border-2 border-black px-2"
+          type="text"
+          name="taskName"
+          placeholder="Task Name"
+        />
+        <label className="inline-block text-center w-[200px]">
+          Set Priority
+        </label>
+        <input
+          className="border border-2 border-black px-2"
+          type="number"
+          name="priority"
+          placeholder="Priority"
+        />
+        <label htmlFor="isComplete" className="inline-block w-[200px]">
+          Select if Completed
+        </label>
         <input type="checkbox" name="isComplete" />
-        <label htmlFor="isComplete">Completed</label>
-        <button type="submit" className="button small">
-          Add Task
-        </button>
+        <label className="inline-block text-center w-[200px]">
+          List_ID(test)
+        </label>
+        <input
+          className="border border-2 border-black px-2"
+          type="text"
+          name="listID"
+        />
+        <p className="m-5 text-center">
+          <button type="submit" className="button small">
+            Add Task
+          </button>
+        </p>
       </form>
     </div>
   );
 };
 
 export default ToDoList;
-
-// import { getTasks } from "csc-start/utils/data";
-
-// const ToDoList = async ({ list_id }) => {
-//   const { data: tasks, error } = await getTasks(list_id);
-
-//   return (
-//     <div>
-//       {Array.isArray(tasks) &&
-//         tasks.map(({ id, taskName, priority, isComplete }) => {
-//           return (
-//             <a key={id} name={taskName} className="button">
-//               <p>{taskName}</p>
-//               <p>{priority}</p>
-//               <p>{isComplete}</p>
-//             </a>
-//           );
-//         })}
-//     </div>
-//   );
-// };
-
-// export default ToDoList;

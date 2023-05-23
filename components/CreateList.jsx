@@ -3,6 +3,7 @@ import { createNewList, getLists, refreshUser } from "csc-start/utils/data";
 import useUser from "csc-start/hooks/useUser";
 import useUserMustBeLogged from "csc-start/hooks/useUserMustBeLogged";
 import { useState, useEffect } from "react";
+import ToDoList from "./ToDoList";
 
 const CreateList = () => {
   const [listTitle, setListTitle] = useState("");
@@ -44,6 +45,7 @@ const CreateList = () => {
           </button>
         </p>
       </form>
+      <ToDoList />
     </div>
   );
 };
