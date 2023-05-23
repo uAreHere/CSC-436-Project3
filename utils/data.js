@@ -68,13 +68,24 @@ const addNewLink = async (user_id, url, title, order, linkType = "link") => {
   };
 };
 
-const addTask = async (user_id, title, order, list_id) => {
-  const insertResponse = await supabase.from("links").insert({
-    order,
-    title,
-    user_id,
+const addTask = async (taskName, priority, isComplete, list_id) => {
+  const insertResponse = await supabase.from("tasks").insert({
+    taskName,
+    priority,
+    isComplete,
     list_id,
   });
+  if (insertResponse.error) {
+    return {
+      success: false,
+      error: insertResponse.error,
+    };
+  }
+  return {
+    success: true,
+    message: "successfully added",
+    data: insertResponse.data,
+  };
 };
 
 const createNewList = async (user_id, listTitle) => {
@@ -155,11 +166,6 @@ const getCurrentUser = async () => {
 };
 
 const getLists = async (userId) => {
-  // remove references to linkRequestData, as it is overzealously caching
-  // if (linkRequestData.data) {
-  //   return linkRequestData.data;
-  // }
-
   const { data, error } = await supabase
     .from("todoList")
     .select("*")
@@ -170,18 +176,27 @@ const getLists = async (userId) => {
       error,
     };
   }
-  // remove references to linkRequestData, as it is overzealously caching
-  // linkRequestData.data = { success: true, data };
 
   return { success: true, data };
 };
 
-const getLinks = async (userId) => {
-  // remove references to linkRequestData, as it is overzealously caching
-  // if (linkRequestData.data) {
-  //   return linkRequestData.data;
-  // }
+//function to get each task related to a list
+const getTasks = async (list_id) => {
+  const { data, error } = await supabase
+    .from("tasks")
+    .select("*")
+    .eq("list_id", list_id);
 
+  if (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+  return { success: true, data };
+};
+
+const getLinks = async (userId) => {
   const { data, error } = await supabase
     .from("links")
     .select("*")
@@ -339,8 +354,6 @@ const loginUser = async (email, password) => {
 export {
   loginUser,
   registerUser,
-  getLinksLinks,
-  getSocialLinks,
   getCurrentUser,
   addNewLink,
   logout,
@@ -349,4 +362,6 @@ export {
   getLinks,
   createNewList,
   getLists,
+  getTasks,
+  addTask,
 };

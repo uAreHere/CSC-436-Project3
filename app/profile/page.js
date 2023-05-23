@@ -1,4 +1,3 @@
-import CreateList from "csc-start/components/CreateList";
 import Profile from "csc-start/components/Profile";
 import Username from "csc-start/components/Username";
 
@@ -7,7 +6,6 @@ const Page = () => {
     <div>
       <Username />
       <Profile />
-      <CreateList />
     </div>
   );
 };

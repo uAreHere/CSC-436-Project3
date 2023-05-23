@@ -1,5 +1,3 @@
-import LinksLinks from "csc-start/components/LinksLinks";
-import SocialLinks from "csc-start/components/SocialLinks";
 import Username from "csc-start/components/Username";
 import ViewLists from "csc-start/components/ViewLists";
 import { getUserBySlug } from "csc-start/utils/data";
@@ -22,9 +20,10 @@ const Page = async ({ params: { slug } }) => {
   return (
     <>
       <Username />
+      <div className="text-center">
+        <h3 className="h3">Choose a List Below</h3>
+      </div>
       <ViewLists user_id={user_id} />
-      <SocialLinks user_id={user_id} />
-      <LinksLinks user_id={user_id} />
     </>
   );
 };

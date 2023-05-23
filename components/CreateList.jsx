@@ -1,8 +1,8 @@
 "use client";
-import { createNewList, refreshUser } from "csc-start/utils/data";
+import { createNewList, getLists, refreshUser } from "csc-start/utils/data";
 import useUser from "csc-start/hooks/useUser";
 import useUserMustBeLogged from "csc-start/hooks/useUserMustBeLogged";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const CreateList = () => {
   const [listTitle, setListTitle] = useState("");
@@ -27,8 +27,10 @@ const CreateList = () => {
 
   return (
     <div className="barge">
-      <form onSubmit={handleFormSubmit}>
-        <label className="inline-block w-[75px]">Your List Title Here</label>
+      <form onSubmit={handleFormSubmit} className="m-4">
+        <label className="inline-block text-center w-[200px]">
+          Create A List
+        </label>
         <input
           type="text"
           value={listTitle}
@@ -36,7 +38,7 @@ const CreateList = () => {
           placeholder="Enter List Title"
           className="border border-2 border-black px-2"
         />
-        <p className="my-2">
+        <p className="m-4 text-center">
           <button type="submit" className="button small">
             Create List
           </button>
