@@ -3,6 +3,7 @@
 import useUser from "csc-start/hooks/useUser";
 import useUserMustBeLogged from "csc-start/hooks/useUserMustBeLogged";
 import CreateList from "./CreateList";
+import ToDoList from "./ToDoList";
 
 const Profile = () => {
   const { user, refreshUser, error, loading } = useUser();
@@ -21,6 +22,7 @@ const Profile = () => {
       {!error && !loading && (
         <>
           <CreateList />
+          <ToDoList />
         </>
       )}
     </div>

@@ -1,13 +1,9 @@
 import { notFound } from "next/navigation";
-import ToDoList from "csc-start/components/ToDoList";
-import { useRouter } from "next/router";
+import TaskList from "csc-start/components/TaskList";
 
 export const revalidate = 30;
 
-const Page = () => {
-  const router = useRouter();
-  const { list_id } = router.query;
-
+const Page = async ({ list_id }) => {
   if (!!error) {
     return <p>{error.message}</p>;
   }
@@ -17,7 +13,7 @@ const Page = () => {
 
   return (
     <>
-      <ToDoList list_id={data.id} />
+      <TaskList list_id={list_id} />
     </>
   );
 };

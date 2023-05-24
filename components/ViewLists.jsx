@@ -1,6 +1,5 @@
 import { getLists } from "csc-start/utils/data";
 import Link from "next/link";
-// import ToDoList from "./ToDoList";
 
 const ViewLists = async ({ user_id }) => {
   const { data: lists } = await getLists(user_id);
@@ -10,14 +9,18 @@ const ViewLists = async ({ user_id }) => {
       {Array.isArray(lists) &&
         lists.map(({ id, listTitle }) => {
           return (
-            <Link
-              href={`/user/${user_id}/lists/${id}`}
-              key={id}
-              passHref
-              legacyBehavior
-            >
-              <a className="button small">{listTitle}</a>
-            </Link>
+            <>
+              <Link
+                href={`/user/${user_id}/lists/${id}`}
+                key={id}
+                passHref
+                legacyBehavior
+              >
+                <a className="flex button small">
+                  {listTitle} <br></br> ListID:{id}
+                </a>
+              </Link>
+            </>
           );
         })}
     </div>

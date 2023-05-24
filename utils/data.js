@@ -20,6 +20,25 @@ const getUserBySlug = async (slug) => {
   };
 };
 
+const getSlugById = async (user_id) => {
+  const { data, error } = await supabase
+    .from("profile")
+    .select("slug")
+    .eq("user_id", user_id)
+    .limit(1)
+    .single();
+  if (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+  return {
+    success: true,
+    data,
+  };
+};
+
 const getLatestUsers = async (num = 5) => {
   const { data, error } = await supabase
     .from("profile")
@@ -177,6 +196,18 @@ const getLists = async (userId) => {
     };
   }
 
+  return { success: true, data };
+};
+
+const getAllUsersTasks = async () => {
+  const { data, error } = await supabase.from("tasks").select("*");
+
+  if (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
   return { success: true, data };
 };
 
@@ -364,4 +395,6 @@ export {
   getLists,
   getTasks,
   addTask,
+  getAllUsersTasks,
+  getSlugById,
 };
